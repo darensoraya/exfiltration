@@ -22,29 +22,26 @@ def base64_encode_decode_chepy(file_in, file_out, action, encode_format):
 
 
 def main():
-    parser = argparse.ArgumentParser(description='Encode or Decode base 64 with an optional custom alphabet')
-    # Déterminer l'action à réaliser : soit encode ou decode
-    # NB: bien préciser le default en fonction de l'action qu'on veut réaliser.
+    parser = argparse.ArgumentParser(description='Encode and Decode base 64 with an optional custom alphabet')
     parser.add_argument('-a', '--action', help='encode|decode file', dest='action', choices=['encode', 'decode'],
                         default='encode', required=False)
-
     parser.add_argument('-i', '--file-in', help='Input file that needs to be encoded', dest='file_in', required=False,
                         default='test_2.pdf')
     parser.add_argument('-f', '--format', help='Encode format', dest='format', choices=list(base64_char_sets().keys()),
                         default='custom_ascii', required=False)
     args = parser.parse_args()
 
-    file_in = args.file_in
+    file_in_e = args.file_in
     action = args.action
     encode_format = args.format
-    file_out = file_in + '.' + action + 'd'
-
-    if(action == 'encode'):
-        print('{} -- {} - {} --> {}'.format(file_in,action,encode_format,file_out))
-        base64_encode_decode_chepy(file_in, file_out, action, encode_format)
-    else:
-        print('{} -- {} - {} --> {}'.format(file_in, action, encode_format, file_out))
-        base64_encode_decode_chepy(file_in, file_out, action, encode_format)
+    file_out_e = "Document.pdf." + action + 'd'
+    print('{} -- {} - {} --> {}'.format(file_in_e,action,encode_format,file_out_e))
+    base64_encode_decode_chepy(file_in_e, file_out_e, action, encode_format)
+    file_in_d = file_out_e
+    action = "decode"
+    file_out_d = "Document." + action + ".pdf"
+    print('{} -- {} - {} --> {}'.format(file_in_d, action, encode_format, file_out_d))
+    base64_encode_decode_chepy(file_in_d, file_out_d, action, encode_format)
     print('Finished')
 
 
