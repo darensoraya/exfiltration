@@ -33,10 +33,14 @@ def modPixel(pix, data):
                     pix[-1] -= 1
                 else:
                     pix[j] += 1
-                pix = tuple(pix)
-                yield pix[0:3]
-                yield pix[3:6]
-                yield pix[6:9]
+        else:
+            if (pix[-1] % 2 != 0):
+                pix[-1] -= 1
+
+        pix = tuple(pix)
+        yield pix[0:3]
+        yield pix[3:6]
+        yield pix[6:9]
 
 
 def encode_enc(newimg, data):
@@ -51,9 +55,9 @@ def encode_enc(newimg, data):
             x += 1
 
 def encode():
-    image = Image.open('../out.png', 'r')
+    image = Image.open('in.JPG', 'r')
 
-    data = open('../test_2.pdf', 'r', encoding='utf8', errors='ignore')
+    data = open('../encode/Document.pdf.encoded', 'r', encoding='utf8', errors='ignore')
     data = data.read()
 
     if(len(data) == 0):
@@ -61,14 +65,12 @@ def encode():
     newimg = image.copy()
     encode_enc(newimg, data)
 
-    new_img_name = 'hide_img.png'
+    new_img_name = 'hide.png'
     newimg.save(new_img_name, str(new_img_name.split(".")[1].upper()))
 
 
 def decode():
-    img = input("Enter image name(with extension) : ")
-    image = Image.open(img, 'r')
-    doc = open('doc_decod.pdf','w')
+    image = Image.open('hide.png', 'r')
     data = ''
     imgdata = iter(image.getdata())
     while (True):
@@ -82,13 +84,12 @@ def decode():
                 binstr += '0'
             else:
                 binstr += '1'
-
         data += chr(int(binstr, 2))
-        if (pixels[-1] % 2 != 0):
-                    print(data)
-                    doc.write(data)
-                    return data
 
+        if (pixels[-1] % 2 != 0):
+            datas = open('hide.pdf.encoded', 'w', encoding='utf8', errors='ignore')
+            datas.write(data)
+            return data
 
 def main():
     encode()
