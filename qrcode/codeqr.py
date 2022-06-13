@@ -10,23 +10,23 @@ def main():
     # images = convert_from_path('../encode/Document.pdf.encoded')
     # for image in images:
         # image.save('out.png','PNG')
-
-    content = open('../encode/Document.pdf.encoded', 'r')
     # PDF_read = PdfFileReader(content)
     # page_1 = PDF_read.getPage(0)
     # print(page_1.extractText())
-    print(len(content.read()))
-    print(type(content.read()))
-    text = content.read()
-    print(text)
+
+    content = open('../encode/Document.pdf.encoded', 'r')
     j = 0
+    # 2325
     for i in range(0, len(content.read()), 2325):
+        # print(i)
+        content = open('../encode/Document.pdf.encoded', 'r')
         qr = qrcode.QRCode()
-        qr.add_data(i)
+        qr.add_data(content.read()[i:i+2325])
+        print("okay"+str(j))
         qr.make()
         img_qr = qr.make_image()
-        img_qr.save("qr_"+j+".png")
-        j = +1
+        img_qr.save("qr_"+str(j)+".png")
+        j = j+1
 
 
 
